@@ -3,10 +3,10 @@ name: Build gatus image
 on:
   push:
     branches:
-    - master
+    - develop
   pull_request:
     branches:
-    - master
+    - develop
   schedule:
     - cron: '0 12 * * 5'
 
