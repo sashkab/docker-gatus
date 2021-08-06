@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+    gatus:
+        restart: always
+        image: gatus:l
+        ports:
+          - 8080:8080
+        volumes:
+          - ./config.yaml:/config/config.yaml
+          - gatus:/data
+
+volumes:
+  gatus:
+

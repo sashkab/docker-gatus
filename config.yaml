@@ -1,0 +1,20 @@
+storage:
+  type: sqlite
+  file: /data/data.db
+
+# alerting:
+#   slack:
+#     webhook-url: https://hooks.slack.com/services/....
+
+services:
+  - name: icmp.google.com
+    group: web
+    url: "icmp://google.com"
+    interval: 60s
+    alerts:
+      - type: slack
+        enabled: true
+        failure-threshold: 6
+        send-on-resolved: true
+    conditions:
+      - "[CONNECTED] == true"
