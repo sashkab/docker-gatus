@@ -11,7 +11,7 @@ WORKDIR /app
 
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -installsuffix cgo -o gatus .
 
-RUN apk update && apk add --virtual build-dependencies build-base gcc
+RUN apk update && apk add --virtual build-dependencies build-base gcc sudo
 
 # We're using "sudo" because one of the tests leverages ping, which requires super-user privileges.
 # As for the 'env "PATH=$PATH" "GOROOT=$GOROOT"', we need it to use the same "go" executable that
