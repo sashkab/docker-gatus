@@ -17,13 +17,9 @@ WORKDIR /app
 
 RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -installsuffix cgo -o gatus .
 
-RUN apk update && apk add --virtual build-dependencies build-base gcc sudo
+RUN apk update && apk add --virtual build-dependencies build-base gcc
 
-# We're using "sudo" because one of the tests leverages ping, which requires super-user privileges.
-# As for the 'env "PATH=$PATH" "GOROOT=$GOROOT"', we need it to use the same "go" executable that
-# was configured by the "Set up Go 1.15" step (otherwise, it'd use sudo's "go" executable)
-# Lifted from https://github.com/TwinProduction/gatus/blob/v3.2.1/.github/workflows/build.yml#L25
-RUN sudo env "PATH=$PATH" "GOROOT=$GOROOT" go test -mod vendor ./... -race
+RUN go test -mod vendor ./... -race
 
 
 FROM scratch
