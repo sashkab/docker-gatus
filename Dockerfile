@@ -5,7 +5,13 @@ ADD https://github.com/TwinProduction/gatus/archive/refs/tags/v3.2.1.tar.gz /gat
 RUN set -ex \
     && apk --update add ca-certificates \
     && mkdir -p /app \
-    && tar xzfv /gatus.tgz -C /app --strip-components=1
+    && tar xzfv /gatus.tgz -C /app --strip-components=1 \
+    && go version
+
+# Workaround for a bug https://github.com/TwinProduction/gatus/issues/182
+RUN apk --update add patch \
+    && wget https://github.com/TwinProduction/gatus/commit/c423afb0bf87d0e1be2f73fec25b5199acf1aed7.patch -O /patch.txt \
+    && patch -d /app -p1 < /patch.txt
 
 WORKDIR /app
 
