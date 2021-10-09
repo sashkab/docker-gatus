@@ -1,4 +1,4 @@
-FROM golang:alpine-1.17 as builder
+FROM golang:1.17-alpine as builder
 
 ADD https://github.com/TwiN/gatus/archive/refs/tags/v3.2.2.tar.gz /gatus.tgz
 
@@ -17,6 +17,8 @@ RUN set -ex \
         https://letsencrypt.org/certs/lets-encrypt-e2.pem \
     && update-ca-certificates \
     && ls -la /etc/ssl/certs/ca-certificates.crt
+
+# certificates from https://letsencrypt.org/certificates/
 
 WORKDIR /app
 
