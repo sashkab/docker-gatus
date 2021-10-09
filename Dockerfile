@@ -1,4 +1,4 @@
-FROM golang:alpine as builder
+FROM golang:alpine-1.17 as builder
 
 ADD https://github.com/TwiN/gatus/archive/refs/tags/v3.2.2.tar.gz /gatus.tgz
 
@@ -6,7 +6,17 @@ RUN set -ex \
     && apk --update add ca-certificates \
     && mkdir -p /app \
     && tar xzfv /gatus.tgz -C /app --strip-components=1 \
-    && go version
+    && go version \
+    && ls -la /etc/ssl/certs/ca-certificates.crt \
+    && wget -q -P /usr/local/share/ca-certificates/ \
+        https://letsencrypt.org/certs/isrgrootx1.pem \
+        https://letsencrypt.org/certs/isrg-root-x2.pem \
+        https://letsencrypt.org/certs/lets-encrypt-r3.pem \
+        https://letsencrypt.org/certs/lets-encrypt-e1.pem \
+        https://letsencrypt.org/certs/lets-encrypt-r4.pem \
+        https://letsencrypt.org/certs/lets-encrypt-e2.pem \
+    && update-ca-certificates \
+    && ls -la /etc/ssl/certs/ca-certificates.crt
 
 WORKDIR /app
 
