@@ -6,7 +6,7 @@ storage:
 #   slack:
 #     webhook-url: https://hooks.slack.com/services/....
 
-services:
+endpoints:
   - name: icmp.google.com
     group: web
     url: "icmp://google.com"
