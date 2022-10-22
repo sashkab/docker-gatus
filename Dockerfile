@@ -1,6 +1,6 @@
 FROM golang:1.19-alpine as builder
 
-ADD https://github.com/TwiN/gatus/archive/refs/tags/v4.3.1.tar.gz /gatus.tgz
+ADD https://github.com/TwiN/gatus/archive/refs/tags/v4.3.2.tar.gz /gatus.tgz
 
 RUN set -ex \
     && apk --update add ca-certificates \
