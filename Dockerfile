@@ -22,7 +22,7 @@ RUN set -ex \
 
 WORKDIR /app
 
-RUN CGO_ENABLED=0 GOOS=linux go build -mod vendor -a -installsuffix cgo -o gatus .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o gatus .
 
 RUN apk update && apk add --virtual build-dependencies build-base gcc
 
