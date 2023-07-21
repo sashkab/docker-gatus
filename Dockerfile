@@ -2,7 +2,7 @@ FROM golang:1.20-alpine as builder
 
 RUN set -ex \
     && go version  \
-    && wget https://github.com/TwiN/gatus/archive/refs/tags/v5.4.0.tar.gz -O /tmp/gatus.tgz \
+    && wget https://github.com/TwiN/gatus/archive/refs/tags/v5.5.1.tar.gz -O /tmp/gatus.tgz \
     && mkdir -p /app \
     && tar xzfv /tmp/gatus.tgz -C /app --strip-components=1
 
