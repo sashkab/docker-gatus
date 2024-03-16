@@ -1,8 +1,8 @@
-FROM golang:1.21-alpine as builder
+FROM golang:1.22-alpine as builder
 
 RUN set -ex \
     && go version  \
-    && wget https://github.com/TwiN/gatus/archive/refs/tags/v5.7.0.tar.gz -O /tmp/gatus.tgz \
+    && wget https://github.com/TwiN/gatus/archive/refs/tags/v5.8.0.tar.gz -O /tmp/gatus.tgz \
     && mkdir -p /app \
     && tar xzfv /tmp/gatus.tgz -C /app --strip-components=1
 
