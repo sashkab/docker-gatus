@@ -36,3 +36,16 @@ jobs:
           docker push $IMAGE_ID:$VERSION
           docker tag $IMAGE_ID:$VERSION $IMAGE_ID:latest
           docker push $IMAGE_ID:latest
+
+  cleanup:
+    needs: push
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/delete-package-versions@v5
+        with:
+          package-name: "${{ github.event.repository.name }}/docker-gatus"
+          package-type: "container"
+          min-versions-to-keep: 5
+          token: ${{ secrets.GITHUB_TOKEN }}
