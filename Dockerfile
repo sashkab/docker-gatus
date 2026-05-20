@@ -1,9 +1,9 @@
-FROM golang:1.25-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 RUN set -ex \
     && apk update && apk add --no-cache wget \
     && go version  \
-    && wget -v https://github.com/TwiN/gatus/archive/refs/tags/v5.35.0.tar.gz -O /tmp/gatus.tgz \
+    && wget -v https://github.com/TwiN/gatus/archive/refs/tags/v5.36.0.tar.gz -O /tmp/gatus.tgz \
     && mkdir -p /app \
     && tar xzfv /tmp/gatus.tgz -C /app --strip-components=1
 
