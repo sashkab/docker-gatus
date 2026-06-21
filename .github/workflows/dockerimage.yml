@@ -18,24 +18,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ github.token }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Build image
         run: docker build . --file Dockerfile --tag image
 
       - name: Push image
         run: |
-          IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
-          VERSION=$(date "+%Y.%m.%d")
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-          docker tag image $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
-          docker tag $IMAGE_ID:$VERSION $IMAGE_ID:latest
-          docker push $IMAGE_ID:latest
+          IMAGE_ID=ghcr.io/${{ github.repository }}
+          VERSION="$(date +%Y.%m.%d)"
+          echo IMAGE_ID="$IMAGE_ID"
+          echo VERSION="$VERSION"
+          docker tag image "$IMAGE_ID:$VERSION"
+          docker push "$IMAGE_ID:$VERSION"
+          docker tag "$IMAGE_ID:$VERSION" "$IMAGE_ID:latest"
+          docker push "$IMAGE_ID:latest"
 
   cleanup:
     needs: push
@@ -55,7 +55,11 @@ jobs:
 
           gh api --paginate \
             "/users/$OWNER/packages/container/$PACKAGE/versions?per_page=100" \
-            --jq '.[].id' |
+            --jq '
+              .[]
+              | select((.metadata.container.tags // []) | index("latest") | not)
+              | .id
+            ' |
             tail -n +"$((KEEP + 1))" |
             while read -r id; do
               echo "Deleting package version $id"
